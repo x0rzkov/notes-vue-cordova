@@ -1,35 +1,37 @@
 <template>
   <div>
-        <router-link to="/create">
-              <section class="createNote">
-                    Write a note...
-              </section>
-        </router-link>
 
-        <!-- todo : get notes list  from ws--> 
+    <router-link to="/create">
+          <section class="createNote">
+                Write a note...
+          </section>
+    </router-link>
 
-        <section class="line" >
-            <p> {{ notes.length }} note(s) </p>
-        </section>
-      
-            <ul v-for= "note in notes" :key="note.id">
-              <li> 
-                <article class="card" :class="note.color">
-                  
-                  <section class="cardContent">
-                    <h1 class="cardTitle"> {{ note.title }} </h1>
-                    <p> {{ note.description }} </p>
-                  </section>                                
-                  <section class="cardFooter">
-                    <span> {{ note.createdAt | dateFormat }}</span>
-                    <div class="icon">                                           
-                        <img src="../assets/images/edit.png" v-on:click="navigateToEditNote(note._id)">                      
-                        <img src="../assets/images/delete.png" v-on:click= "removeNote(note)" >
-                    </div>
-                  </section>                
-                </article>
-              </li>
-            </ul>
+    <!-- todo : get notes list  from ws--> 
+
+    <section class="line" >
+        <p> {{ notes.length }} note(s) </p>
+    </section>
+  
+    <ul v-for= "note in notes" :key="note.id">
+      <li> 
+        <article class="card" :class="note.color">
+          
+          <section class="cardContent">
+            <h1 class="cardTitle"> {{ note.title }} </h1>
+            <p> {{ note.description }} </p>
+          </section>                                
+          <section class="cardFooter">
+            <span> {{ note.createdAt | dateFormat }}</span>
+            <div class="icon">                                           
+                <img src="../assets/images/edit.png" v-on:click="navigateToEditNote(note._id)">                      
+                <img src="../assets/images/delete.png" v-on:click= "removeNote(note)" >
+            </div>
+          </section>                
+        </article>
+      </li>
+    </ul>
+
   </div>
 </template>
 
@@ -39,7 +41,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import wsURL from '../const'
-import moment from 'moment'
+//import moment from 'moment'
 import VueFilterDateFormat from 'vue-filter-date-format'
  
 Vue.use(VueFilterDateFormat)
@@ -59,7 +61,7 @@ export default {
 
 
   mounted () {
-    console.log(wsURL);
+    // console.log(wsURL);
     axios
       .get(wsURL+'/notes')
       .then(response => (this.notes = response.data))
@@ -68,12 +70,13 @@ export default {
   
   methods: {   
       removeNote (note) {
-      console.log('delete url : ', wsURL+'/notes/'+ note._id)  
+      // console.log('delete url : ', wsURL+'/notes/'+ note._id)  
          axios
           .delete(wsURL + '/notes/' + note._id)
           .then((response) => {
               const noteIndex = this.notes.indexOf(note);
               this.notes.splice(noteIndex, 1);
+              console.log(response);
           }
           );
       
